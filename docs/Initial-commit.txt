@@ -1,0 +1,18 @@
+    1. Now, look at the distribution of the colors across the page in
+       `0001_textual_requirements_with_annotated_entities.png`. Make
+       abstraction of the text, look just at the colors. What do you notice and
+       how do you interpret what you've noticed?
+
+Your answer.
+
+    2. In the file `0003_textual_requirements_with_annotated_requirements.png`,
+       you can additionally see some functional requirements highlighted in
+       yellow. What do you notice, and what semnification do you think it has?
+       Compare with the other image which has no yellow.
+
+Your answer.
+
+    3. Ask the customer as many questions as you wish to make him clarify the
+       existing requirements.
+
+Your questions..

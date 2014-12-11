@@ -1,0 +1,11 @@
+{
+    "autoload-dev": {
+        "psr-4": {
+            "Common\\": "src/Common/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.3.*",
+        "phpunit/php-invoker": "*"
+    }
+}

@@ -1,7 +1,9 @@
 {
     "autoload-dev": {
         "psr-4": {
-            "Common\\": "src/Common/"
+            "Common\\": "src/Common/",
+            "Application\\": "tests/infrastructure/src/Application",
+            "PHPUnit\\": "tests/infrastructure/phpunit"
         }
     },
     "require-dev": {

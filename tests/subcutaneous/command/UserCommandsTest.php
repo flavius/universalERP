@@ -1,4 +1,6 @@
 <?php
+use Common\User\Event\Registered;
+
 /**
  * Copyright (c) 2014 Flavius Aspra <flavius.as@gmail.com>
  *
@@ -19,5 +21,17 @@ class UserCommandsTest extends \TestFramework\TestCase
         $result = $world->executeCommand($registerUser);
 
         $this->assertTrueCommandResult($result);
+        $searchedEvent = new Registered('foo');
+
+        $found = false;
+        foreach($world->eventHub()->newEvents() as $event)
+        {
+            if($event->equals($searchedEvent)) {
+                $found = true;
+            }
+        }
+        if(!$found) {
+            $this->fail('event not found');
+        }
     }
 }

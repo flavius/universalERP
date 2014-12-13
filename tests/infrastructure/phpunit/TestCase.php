@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPUnit\Framework;
+namespace TestFramework;
 
 use Common\World\Result;
 
@@ -12,9 +12,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function assertTrueCommandResult(Result $result, $message = '')
     {
-        /** @var \Common\World\Result\Boolean $result */
-        $this->assertInstanceOf('Common\World\Result\Boolean', $result, $message);
-        $this->assertTrue($result->getBooleanValue(), $message);
+        $this->assertThat($result, new Constraint\TrueCommandResult(), $message);
     }
 
 }

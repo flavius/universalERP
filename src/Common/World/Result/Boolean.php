@@ -14,6 +14,6 @@ class Boolean implements Result
 
     public function getBooleanValue()
     {
-        return false;
+        return true;
     }
 }

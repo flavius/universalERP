@@ -22,11 +22,11 @@ class UserCommandsTest extends \TestFramework\TestCase
 
         $this->assertTrueCommandResult($result);
         $searchedEvent = new Registered('foo');
-
+        //$this->assertEventHubContainsEvent($world->eventHub(), $searchedEvent);
         $found = false;
         foreach($world->eventHub()->newEvents() as $event)
         {
-            if($event->equals($searchedEvent)) {
+            if($searchedEvent->equals($event)) {
                 $found = true;
             }
         }

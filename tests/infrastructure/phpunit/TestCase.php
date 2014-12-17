@@ -15,4 +15,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $this->assertThat($result, new Constraint\TrueCommandResult(), $message);
     }
 
+    public function assertEventHubContainsEvent($eventHub, $searchedEvent, $message = '')
+    {
+
+    }
+
 }

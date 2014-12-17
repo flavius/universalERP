@@ -11,9 +11,27 @@ use Common\World\Result;
 
 class Boolean implements Result
 {
+    /**
+     * @var bool
+     */
+    private $value;
 
+    /**
+     * @param bool $value
+     */
+    public function __construct($value)
+    {
+        if(!is_bool($value)) {
+            throw new \UnexpectedValueException("Unexpected value: '$e'");
+        }
+        $this->value = $value;
+    }
+
+    /**
+     * @return bool
+     */
     public function getBooleanValue()
     {
-        return true;
+        return $this->value;
     }
 }

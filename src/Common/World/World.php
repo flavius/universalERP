@@ -7,8 +7,9 @@
 
 namespace Common\World;
 
+use Common\World\Event\CommandFinished;
+use Common\World\Event\CommandStarted;
 
-use Common\World\Result\Boolean;
 
 class World
 {
@@ -21,6 +22,11 @@ class World
      * @var EventHub
      */
     private $eventHub;
+
+    /**
+     * @var CommandExecutor
+     */
+    private $commandExecutor;
 
     /**
      * @param Environment $environment
@@ -39,7 +45,10 @@ class World
      */
     public function executeCommand(Command $command)
     {
-        return new Boolean();
+        $this->eventHub->trigger(new CommandStarted($command));
+        $result = $this->commandExecutor->execute($command);
+        $this->eventHub->trigger(new CommandFinished($command, $result));
+        return $result;
     }
 
     /**
@@ -71,5 +80,10 @@ class World
      */
     public function setEventHub(EventHub $eventHub) {
         $this->eventHub = $eventHub;
+    }
+
+    public function setCommandExecutor(CommandExecutor $commandExecutor)
+    {
+        $this->commandExecutor = $commandExecutor;
     }
 }

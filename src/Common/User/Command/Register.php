@@ -13,4 +13,11 @@ use Common\World\Command;
 class Register implements Command
 {
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).")";
+    }
 }

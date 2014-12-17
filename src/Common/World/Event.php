@@ -16,4 +16,9 @@ interface Event
      * @return bool
      */
     public function equals(Event $other);
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

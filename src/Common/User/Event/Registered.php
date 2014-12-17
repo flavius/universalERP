@@ -35,4 +35,12 @@ class Registered implements Event
         }
         return $this->identifier === $other->identifier;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") {identifier: {$this->identifier}}";
+    }
 }

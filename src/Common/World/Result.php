@@ -11,4 +11,8 @@ namespace Common\World;
 interface Result
 {
 
+    /**
+     * @return string
+     */
+    public function __toString();
 }

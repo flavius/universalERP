@@ -26,4 +26,8 @@ class Testing implements Environment
     protected function newCommandExecutor() {
         return new CommandExecutor();
     }
+
+    public function __toString() {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).")";
+    }
 }

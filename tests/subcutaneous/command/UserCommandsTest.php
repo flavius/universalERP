@@ -20,18 +20,10 @@ class UserCommandsTest extends \TestFramework\TestCase
 
         $result = $world->executeCommand($registerUser);
 
+        $this->assertCount(3, $world->eventHub()->newEvents());
         $this->assertTrueCommandResult($result);
+
         $searchedEvent = new Registered('foo');
-        //$this->assertEventHubContainsEvent($world->eventHub(), $searchedEvent);
-        $found = false;
-        foreach($world->eventHub()->newEvents() as $event)
-        {
-            if($searchedEvent->equals($event)) {
-                $found = true;
-            }
-        }
-        if(!$found) {
-            $this->fail('event not found');
-        }
+        $this->assertEventHubContainsEvent($world->eventHub(), $searchedEvent);
     }
 }

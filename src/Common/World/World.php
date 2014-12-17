@@ -9,6 +9,7 @@ namespace Common\World;
 
 use Common\World\Event\CommandFinished;
 use Common\World\Event\CommandStarted;
+use Common\World\Event\Adopted;
 
 
 class World
@@ -36,6 +37,8 @@ class World
         $adopted = $environment->adoptWorld($this);
         if (!$adopted) {
             throw new \RuntimeException("the environment has rejected this world for incompatibility reasons");
+        } else {
+            $this->eventHub->trigger(new Adopted($this, $environment));
         }
     }
 
@@ -85,5 +88,9 @@ class World
     public function setCommandExecutor(CommandExecutor $commandExecutor)
     {
         $this->commandExecutor = $commandExecutor;
+    }
+
+    public function __toString() {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).")";
     }
 }

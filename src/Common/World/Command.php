@@ -10,5 +10,9 @@ namespace Common\World;
 
 interface Command
 {
+    /**
+     * @return string
+     */
+    public function __toString();
 
 }

@@ -47,4 +47,12 @@ class CommandFinished implements Event {
         /** @var CommandFinished $other */
         return $this->command === $other->command && $this->result === $other->result;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") {command: {$this->command}, result: {$this->result}}";
+    }
 }

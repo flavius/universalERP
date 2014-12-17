@@ -34,4 +34,12 @@ class Boolean implements Result
     {
         return $this->value;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") {value: {$this->value}}";
+    }
 }

@@ -39,4 +39,12 @@ class CommandStarted implements Event
         /** @var CommandStarted $other */
         return $this->command === $other->command;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") {command: {$this->command}}";
+    }
 }

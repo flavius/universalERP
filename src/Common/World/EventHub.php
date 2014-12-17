@@ -20,4 +20,9 @@ interface EventHub
      * @param Event $event
      */
     public function trigger(Event $event);
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

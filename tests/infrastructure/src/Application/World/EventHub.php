@@ -31,4 +31,12 @@ class EventHub implements \Common\World\EventHub
     public function trigger(Event $event) {
         $this->events[] = $event;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") [newEvents: ".count($this->events)."]";
+    }
 }

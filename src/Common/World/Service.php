@@ -8,16 +8,7 @@
 namespace Common\World;
 
 
-interface Command
+interface Service
 {
-    /**
-     * @return string
-     */
-    public function __toString();
-
-    /**
-     * @return array
-     */
-    public function asDictionary();
 
 }

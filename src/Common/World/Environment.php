@@ -10,5 +10,11 @@ namespace Common\World;
 
 interface Environment {
 
+    /**
+     * @param World $world
+     * @return bool
+     */
     public function adoptWorld(World $world);
+
+    public function importEnvironment(Environment $other);
 }

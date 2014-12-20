@@ -8,16 +8,11 @@
 namespace Common\World;
 
 
-interface Command
-{
-    /**
-     * @return string
-     */
-    public function __toString();
+interface CommandHandlerFactory {
 
     /**
-     * @return array
+     * @param Command $command
+     * @return callable
      */
-    public function asDictionary();
-
+    public function __invoke(Command $command);
 }

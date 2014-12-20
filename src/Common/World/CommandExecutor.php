@@ -7,14 +7,58 @@
 
 namespace Common\World;
 
-
-use Common\World\Result\Boolean;
-
 class CommandExecutor
 {
+    /**
+     * @var array map of commandClass => factoryClass
+     */
+    private $factoryClasses = [];
 
-    public function execute($command)
+    /**
+     * @var array map of commandClass => factory instance
+     */
+    private $factories = [];
+
+    /**
+     * @param string $commandClass
+     * @param string|callable $factoryClass
+     */
+    public function setCommandHandlerFactory($commandClass, $factoryClass)
     {
-        return new Boolean(true);
+        if(is_string($factoryClass)) {
+            $this->factoryClasses[$commandClass] = $factoryClass;
+        } elseif(is_callable($factoryClass)) {
+            $this->factories[$commandClass] = $factoryClass;
+        }
+    }
+
+    public function execute(Command $command)
+    {
+        $handler = $this->findHandler($command);
+        return $handler($command);
+    }
+
+    public function findHandler(Command $command)
+    {
+        $commandClass = get_class($command);
+        $factory = $this->getHandlerFactory($commandClass);
+        return $factory($command);
+    }
+
+    /**
+     * @param $commandClass
+     * @return CommandHandlerFactory
+     */
+    public function getHandlerFactory($commandClass)
+    {
+        if(isset($this->factoryClasses[$commandClass])) {
+            $wantedFactoryClass = $this->factoryClasses[$commandClass];
+            if (!isset($this->factories[$wantedFactoryClass])) {
+                $this->factories[$wantedFactoryClass] = new $wantedFactoryClass;
+            }
+        } else {
+            $wantedFactoryClass = $commandClass;
+        }
+        return $this->factories[$wantedFactoryClass];
     }
 }

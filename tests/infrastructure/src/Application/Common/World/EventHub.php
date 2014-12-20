@@ -5,7 +5,7 @@
  * @license http://mozilla.org/MPL/2.0/ Mozilla Public License v.2.0
  */
 
-namespace Application\World;
+namespace Application\Common\World;
 
 
 use Common\World\Event;

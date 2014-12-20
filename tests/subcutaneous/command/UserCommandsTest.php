@@ -5,19 +5,19 @@
  * @license http://mozilla.org/MPL/2.0/ Mozilla Public License v.2.0
  */
 
-use Application\Common\World\Testing;
 use Common\User\Command\Register;
 use Common\User\Event\Registered;
 use Common\World\World;
+use TestFramework\TestCase;
 
-class UserCommandsTest extends \TestFramework\TestCase
+class UserCommandsTest extends TestCase
 {
     /**
      * @test
      */
     public function proper_creation_in_environment()
     {
-        $environment = new Testing();
+        $environment = $this->getNewWorldEnvironment();
         $world = new World($environment);
         $registerUser = new Register('foo', 'bar');
 

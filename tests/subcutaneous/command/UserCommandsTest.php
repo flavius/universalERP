@@ -23,7 +23,7 @@ class UserCommandsTest extends TestCase
 
         $this->assertCount(1, $world->eventHub()->newEvents());
 
-        $result = $world->executeCommand($registerUser);
+        $result = $world->commandExecutor()->execute($registerUser);
 
         $this->assertCount(4, $world->eventHub()->newEvents());
         $this->assertTrueCommandResult($result);

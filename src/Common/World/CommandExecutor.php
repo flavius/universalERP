@@ -7,8 +7,12 @@
 
 namespace Common\World;
 
+use Common\World\Event\CommandFinished;
+use Common\World\Event\CommandStarted;
+
 class CommandExecutor
 {
+
     /**
      * @var array map of commandClass => factoryClass
      */
@@ -18,6 +22,18 @@ class CommandExecutor
      * @var array map of commandClass => factory instance
      */
     private $factories = [];
+    /**
+     * @var EventHub
+     */
+    private $eventHub;
+
+    /**
+     * @param EventHub $eventHub
+     */
+    public function __construct(EventHub $eventHub)
+    {
+        $this->eventHub = $eventHub;
+    }
 
     /**
      * @param string $commandClass
@@ -25,17 +41,20 @@ class CommandExecutor
      */
     public function setCommandHandlerFactory($commandClass, $factoryClass)
     {
-        if(is_string($factoryClass)) {
+        if (is_string($factoryClass)) {
             $this->factoryClasses[$commandClass] = $factoryClass;
-        } elseif(is_callable($factoryClass)) {
+        } elseif (is_callable($factoryClass)) {
             $this->factories[$commandClass] = $factoryClass;
         }
     }
 
     public function execute(Command $command)
     {
+        $this->eventHub->trigger(new CommandStarted($command));
         $handler = $this->findHandler($command);
-        return $handler($command);
+        $result = $handler($command);
+        $this->eventHub->trigger(new CommandFinished($command, $result));
+        return $result;
     }
 
     public function findHandler(Command $command)
@@ -51,7 +70,7 @@ class CommandExecutor
      */
     public function getHandlerFactory($commandClass)
     {
-        if(isset($this->factoryClasses[$commandClass])) {
+        if (isset($this->factoryClasses[$commandClass])) {
             $wantedFactoryClass = $this->factoryClasses[$commandClass];
             if (!isset($this->factories[$wantedFactoryClass])) {
                 $this->factories[$wantedFactoryClass] = new $wantedFactoryClass;

@@ -38,8 +38,7 @@ class Testing implements Environment
     }
 
     protected function newCommandExecutor() {
-        $executor = new CommandExecutor();
-        return $executor;
+        return new CommandExecutor($this->world->eventHub());
     }
 
     public function __toString() {

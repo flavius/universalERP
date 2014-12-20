@@ -7,8 +7,6 @@
 
 namespace Common\World;
 
-use Common\World\Event\CommandFinished;
-use Common\World\Event\CommandStarted;
 use Common\World\Event\Adopted;
 
 
@@ -40,18 +38,6 @@ class World
         } else {
             $this->eventHub->trigger(new Adopted($this, $environment));
         }
-    }
-
-    /**
-     * @param Command $command
-     * @return Result
-     */
-    public function executeCommand(Command $command)
-    {
-        $this->eventHub->trigger(new CommandStarted($command));
-        $result = $this->commandExecutor->execute($command);
-        $this->eventHub->trigger(new CommandFinished($command, $result));
-        return $result;
     }
 
     /**

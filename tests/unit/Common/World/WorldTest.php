@@ -13,8 +13,9 @@ class WorldTest extends TestCase
 {
     /**
      * @test
-     * @uses   \Common\World\World::setEventHub
      * @covers \Common\World\World::__construct
+     * @uses   \Common\World\World::setEventHub
+     * @uses   \Common\World\Event\Adopted
      */
     public function construction()
     {
@@ -50,5 +51,29 @@ class WorldTest extends TestCase
             ->will($this->returnValue(false));
 
         new World($environmentStub);
+    }
+
+    /**
+     * @test
+     * @covers \Common\World\World::__toString
+     * @uses   \Common\World\World::__construct
+     * @uses   \Common\World\World::setEventHub
+     * @uses   \Common\World\Event\Adopted
+     */
+    public function identification_as_string()
+    {
+        /** @var \Common\World\Environment $environmentStub |\PHPUnit_Framework_MockObject_MockObject */
+        $environmentStub = $this->getMockBuilder('Common\World\Environment')->getMock();
+        /** @var \Common\World\EventHub|\PHPUnit_Framework_MockObject_MockObject $eventHubStub */
+        $eventHubStub = $this->getMock('Common\World\EventHub');
+
+        $environmentStub->expects($this->once())
+            ->method('adoptWorld')
+            ->will($this->returnCallback(function (World $world) use ($eventHubStub) {
+                $world->setEventHub($eventHubStub);
+                return true;
+            }));
+        $world = new World($environmentStub);
+        $this->assertRegExp('/Common\\\\World\\\\World\\([0-9a-f]+\\)/', (string)$world);
     }
 }

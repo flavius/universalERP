@@ -50,10 +50,12 @@ class World
 
     /**
      * @param Environment $environment
+     * @return $this
      */
     public function setEnvironment(Environment $environment)
     {
         $this->environment = $environment;
+        return $this;
     }
 
     /**
@@ -66,17 +68,21 @@ class World
 
     /**
      * @param EventHub $eventHub
+     * @return $this
      */
     public function setEventHub(EventHub $eventHub) {
         $this->eventHub = $eventHub;
+        return $this;
     }
 
     /**
      * @param CommandExecutor $commandExecutor
+     * @return $this
      */
     public function setCommandExecutor(CommandExecutor $commandExecutor)
     {
         $this->commandExecutor = $commandExecutor;
+        return $this;
     }
 
     public function __toString() {

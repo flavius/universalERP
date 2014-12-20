@@ -31,4 +31,16 @@ class UserCommandsTest extends TestCase
         $searchedEvent = new Registered('foo');
         $this->assertEventHubContainsEvent($world->eventHub(), $searchedEvent);
     }
+
+    /**
+     * @todo test
+     */
+    public function proper_persistence_of_new_user()
+    {
+        $environment = $this->getNewWorldEnvironment();
+        $world = new World($environment);
+        $registerUser = new Register('foo', 'bar');
+
+        $world->commandExecutor()->execute($registerUser);
+    }
 }

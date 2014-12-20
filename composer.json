@@ -1,7 +1,7 @@
 {
     "autoload-dev": {
         "psr-4": {
-            "Common\\": "src/Common/",
+            "Common\\": ["src/Common/", "tests/unit/Common"],
             "Application\\": "tests/infrastructure/src/Application",
             "TestFramework\\": "tests/infrastructure/phpunit"
         }

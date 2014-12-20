@@ -36,7 +36,7 @@ class World
     {
         $adopted = $environment->adoptWorld($this);
         if (!$adopted) {
-            throw new \RuntimeException("the environment has rejected this world for incompatibility reasons");
+            throw new \RuntimeException('the environment has rejected this world for incompatibility reasons');
         } else {
             $this->eventHub->trigger(new Adopted($this, $environment));
         }
@@ -94,7 +94,7 @@ class World
     }
 
     public function __toString() {
-        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).")";
+        return get_class($this) . '('.dechex(crc32(spl_object_hash($this))).')';
     }
 
     /**

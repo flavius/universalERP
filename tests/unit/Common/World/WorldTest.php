@@ -18,7 +18,7 @@ class WorldTest extends TestCase
      */
     public function construction()
     {
-        /** @var \Common\World\Environment $environmentStub|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var \Common\World\Environment $environmentStub |\PHPUnit_Framework_MockObject_MockObject */
         $environmentStub = $this->getMockBuilder('Common\World\Environment')->getMock();
         /** @var \Common\World\EventHub|\PHPUnit_Framework_MockObject_MockObject $eventHubStub */
         $eventHubStub = $this->getMock('Common\World\EventHub');
@@ -31,7 +31,7 @@ class WorldTest extends TestCase
             }));
         $eventHubStub->expects($this->once())
             ->method('trigger')
-            ->withAnyParameters();
+            ->with($this->isInstanceOf('Common\World\Event\Adopted'));
         $this->assertInstanceOf('Common\World\World', new World($environmentStub));
     }
 
@@ -48,6 +48,7 @@ class WorldTest extends TestCase
         $environmentStub->expects($this->once())
             ->method('adoptWorld')
             ->will($this->returnValue(false));
-        $this->assertInstanceOf('Common\World\World', new World($environmentStub));
+
+        new World($environmentStub);
     }
 }

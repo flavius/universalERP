@@ -85,6 +85,9 @@ class World
         $this->eventHub = $eventHub;
     }
 
+    /**
+     * @param CommandExecutor $commandExecutor
+     */
     public function setCommandExecutor(CommandExecutor $commandExecutor)
     {
         $this->commandExecutor = $commandExecutor;
@@ -92,5 +95,13 @@ class World
 
     public function __toString() {
         return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).")";
+    }
+
+    /**
+     * @return CommandExecutor
+     */
+    public function commandExecutor()
+    {
+        return $this->commandExecutor;
     }
 }

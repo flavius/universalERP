@@ -26,6 +26,9 @@ class Testing implements Environment
         $world->setEnvironment($this);
         $world->setEventHub($this->newEventHub());
         $world->setCommandExecutor($this->newCommandExecutor());
+        foreach($this->importedSubsystems() as $environment) {
+            $this->importEnvironment($environment);
+        }
         return true;
     }
 
@@ -36,9 +39,6 @@ class Testing implements Environment
 
     protected function newCommandExecutor() {
         $executor = new CommandExecutor();
-        $executor->setCommandHandlerFactory('Common\User\Command\Register', function(Register $command) {
-            return new Service($this->world);
-        });
         return $executor;
     }
 
@@ -51,6 +51,15 @@ class Testing implements Environment
      */
     public function importEnvironment(Environment $other)
     {
+        $other->adoptWorld($this->world);
+    }
 
+    /**
+     * @return \Common\World\Environment[]
+     */
+    private function importedSubsystems() {
+        return [
+            new \Application\Common\User\Testing(),
+        ];
     }
 }

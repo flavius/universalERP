@@ -35,6 +35,14 @@ class FindUserById implements Query
         foreach($eventHub->newEvents() as $event) {
             $user->apply($event);
         }
+        if($user->identification() !== $this->userId) {
+            foreach($eventHub->storageDriver()->newEvents() as $event) {
+                $user->apply($event);
+            }
+        }
+        if($user->identification() !== $this->userId) {
+            $user = null;
+        }
         return $user;
     }
 }

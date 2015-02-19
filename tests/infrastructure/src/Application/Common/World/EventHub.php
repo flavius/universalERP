@@ -14,6 +14,11 @@ use Common\World\StorageDriver;
 class EventHub implements \Common\World\EventHub
 {
     /**
+     * @var Event[]
+     */
+    private $events = [];
+
+    /**
      * @var StorageDriver
      */
     private $storageDriver;
@@ -23,6 +28,14 @@ class EventHub implements \Common\World\EventHub
      */
     public function newEvents()
     {
+        return $this->events;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function events()
+    {
         return $this->storageDriver->newEvents();
     }
 
@@ -30,6 +43,7 @@ class EventHub implements \Common\World\EventHub
      * @param Event $event
      */
     public function trigger(Event $event) {
+        $this->events[] = $event;
         $this->storageDriver->storeEvent($event);
     }
 
@@ -38,7 +52,7 @@ class EventHub implements \Common\World\EventHub
      */
     public function __toString()
     {
-        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") [storageDriver: ".$this->storageDriver."]";
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") [newEvents: ".count($this->events)."]";
     }
 
     public function storageDriver()

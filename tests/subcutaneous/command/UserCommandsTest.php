@@ -79,4 +79,16 @@ class UserCommandsTest extends TestCase
         $this->assertInstanceOf('Common\User\User', $user);
         $this->assertEquals('foo', $user->identification());
     }
+
+    /**
+     * @test
+     */
+    public function not_found_user()
+    {
+        $environment = $this->getNewWorldEnvironment();
+        $world = new World($environment);
+        $registeredQuery = new FindUserById('foo');
+        $user = $world->queryExecutor()->execute($registeredQuery);
+        $this->assertNull($user);
+    }
 }

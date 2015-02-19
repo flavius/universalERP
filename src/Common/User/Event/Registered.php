@@ -25,6 +25,13 @@ class Registered implements Event
     }
 
     /**
+     * @return string
+     */
+    public function identifier() {
+        return $this->identifier;
+    }
+
+    /**
      * @param Event $other
      * @return bool
      */

@@ -28,6 +28,11 @@ class World
     private $commandExecutor;
 
     /**
+     * @var QueryExecutor
+     */
+    private $queryExecutor;
+
+    /**
      * @param Environment $environment
      */
     public function __construct(Environment $environment)
@@ -70,7 +75,8 @@ class World
      * @param EventHub $eventHub
      * @return $this
      */
-    public function setEventHub(EventHub $eventHub) {
+    public function setEventHub(EventHub $eventHub)
+    {
         $this->eventHub = $eventHub;
         return $this;
     }
@@ -85,8 +91,9 @@ class World
         return $this;
     }
 
-    public function __toString() {
-        return get_class($this) . '('.dechex(crc32(spl_object_hash($this))).')';
+    public function __toString()
+    {
+        return get_class($this) . '(' . dechex(crc32(spl_object_hash($this))) . ')';
     }
 
     /**
@@ -95,5 +102,23 @@ class World
     public function commandExecutor()
     {
         return $this->commandExecutor;
+    }
+
+    /**
+     * @return QueryExecutor
+     */
+    public function queryExecutor()
+    {
+        return $this->queryExecutor;
+    }
+
+    /**
+     * @param QueryExecutor $queryExecutor
+     * @return $this
+     */
+    public function setQueryExecutor(QueryExecutor $queryExecutor)
+    {
+        $this->queryExecutor = $queryExecutor;
+        return $this;
     }
 }

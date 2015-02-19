@@ -6,6 +6,7 @@ use Common\User\Command\Register;
 use Common\User\Service;
 use Common\World\CommandExecutor;
 use Common\World\Environment;
+use Common\World\QueryExecutor;
 use Common\World\World;
 
 class Testing implements Environment
@@ -26,6 +27,7 @@ class Testing implements Environment
         $world->setEnvironment($this);
         $world->setEventHub($this->newEventHub());
         $world->setCommandExecutor($this->newCommandExecutor());
+        $world->setQueryExecutor($this->newQueryExecutor());
         foreach($this->importedSubsystems() as $environment) {
             $this->importEnvironment($environment);
         }
@@ -34,7 +36,10 @@ class Testing implements Environment
 
     protected function newEventHub()
     {
-        return new EventHub();
+        $eventHub = new EventHub();
+
+        $eventHub->setStorageDriver($this->newEventHubStorageDriver());
+        return $eventHub;
     }
 
     protected function newCommandExecutor() {
@@ -60,5 +65,18 @@ class Testing implements Environment
         return [
             new \Application\Common\User\Testing(),
         ];
+    }
+
+    /**
+     * @return QueryExecutor
+     */
+    private function newQueryExecutor()
+    {
+        return new QueryExecutor($this->world->eventHub());
+    }
+
+    private function newEventHubStorageDriver()
+    {
+        return new InMemoryStorageDriver();
     }
 }

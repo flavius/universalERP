@@ -22,6 +22,9 @@ class Service implements \Common\World\Service
      */
     private $world;
 
+    /**
+     * @param World $world
+     */
     public function __construct(World $world)
     {
         $this->world = $world;
@@ -33,6 +36,7 @@ class Service implements \Common\World\Service
         return new Boolean(true);
     }
 
+    /** TODO: remove */
     private function executeRegister(Register $registerCommand)
     {
         $this->world->eventHub()->trigger(new Registered($registerCommand->asDictionary()['useridentification']));

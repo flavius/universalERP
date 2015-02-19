@@ -9,27 +9,28 @@ namespace Application\Common\World;
 
 
 use Common\World\Event;
+use Common\World\StorageDriver;
 
 class EventHub implements \Common\World\EventHub
 {
     /**
-     * @var Event[]
+     * @var StorageDriver
      */
-    private $events = [];
+    private $storageDriver;
 
     /**
      * @return Event[]
      */
     public function newEvents()
     {
-        return $this->events;
+        return $this->storageDriver->newEvents();
     }
 
     /**
      * @param Event $event
      */
     public function trigger(Event $event) {
-        $this->events[] = $event;
+        $this->storageDriver->storeEvent($event);
     }
 
     /**
@@ -37,6 +38,19 @@ class EventHub implements \Common\World\EventHub
      */
     public function __toString()
     {
-        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") [newEvents: ".count($this->events)."]";
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") [storageDriver: ".$this->storageDriver."]";
+    }
+
+    public function storageDriver()
+    {
+        return $this->storageDriver;
+    }
+
+    /**
+     * @param StorageDriver $storage
+     */
+    public function setStorageDriver(StorageDriver $storage)
+    {
+        $this->storageDriver = $storage;
     }
 }

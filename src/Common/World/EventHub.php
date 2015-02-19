@@ -25,4 +25,15 @@ interface EventHub
      * @return string
      */
     public function __toString();
+
+    /**
+     * @return StorageDriver
+     */
+    public function storageDriver();
+
+    /**
+     * @param StorageDriver $storage
+     * @return void
+     */
+    public function setStorageDriver(StorageDriver $storage);
 }

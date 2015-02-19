@@ -7,6 +7,8 @@
 
 namespace Common\World;
 
+use Common\Util\ClosureSerializer;
+use Common\Util\ListSerializer;
 use Common\World\Event\CommandFinished;
 use Common\World\Event\CommandStarted;
 
@@ -22,6 +24,17 @@ class CommandExecutor
      * @var array map of commandClass => factory instance
      */
     private $factories = [];
+
+    /**
+     * @var array map of commandClass => handlerClass
+     */
+    private $handlerClasses = [];
+
+    /**
+     * @var array map of commandClass => handler
+     */
+    private $handlers = [];
+
     /**
      * @var EventHub
      */
@@ -60,12 +73,23 @@ class CommandExecutor
     public function findHandler(Command $command)
     {
         $commandClass = get_class($command);
+        if(isset($this->handlerClasses[$commandClass])) {
+            if(!isset($this->handlers[$commandClass])) {
+                $handlerClass = $this->handlerClasses[$commandClass];
+                if(is_string($handlerClass)) {
+                    $this->handlers[$commandClass] = new $handlerClass;
+                } else {
+                    $this->handlers[$commandClass] = $handlerClass;
+                }
+            }
+            return $this->handlers[$commandClass];
+        }
         $factory = $this->getHandlerFactory($commandClass);
         return $factory($command);
     }
 
     /**
-     * @param $commandClass
+     * @param string $commandClass
      * @return CommandHandlerFactory
      */
     public function getHandlerFactory($commandClass)
@@ -79,5 +103,26 @@ class CommandExecutor
             $wantedFactoryClass = $commandClass;
         }
         return $this->factories[$wantedFactoryClass];
+    }
+
+    /**
+     * @param string $commandClass
+     * @param string $commandHandler
+     */
+    public function setCommandHandler($commandClass, $commandHandler)
+    {
+        $this->handlerClasses[$commandClass] = $commandHandler;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $factoryClasses = new ListSerializer($this->factoryClasses);
+        $factories = new ListSerializer($this->factories);
+        $handlerClasses = new ListSerializer($this->handlerClasses);
+        $handlers = new ListSerializer($this->handlers);
+        return get_class($this) . "(".dechex(crc32(spl_object_hash($this))).") {factoryClasses: [$factoryClasses], factories: [$factories], handlerClasses: [$handlerClasses], handlers: [$handlers]";
     }
 }

@@ -9,6 +9,7 @@ namespace Common\User\CommandHandler;
 
 
 use Common\User\Event\Registered;
+use Common\User\Query\FindUserById;
 use Common\World\Result\Boolean;
 use Common\World\World;
 
@@ -27,7 +28,13 @@ class Register
 
     public function __invoke(\Common\User\Command\Register $registerCommand)
     {
-        $registeredEvent = new Registered($registerCommand->asDictionary()['useridentification']);
+        $identification = $registerCommand->asDictionary()['useridentification'];
+        $registeredQuery = new FindUserById($identification);
+        $user = $this->world->queryExecutor()->execute($registeredQuery);
+        if(null !== $user) {
+            return new Boolean(false);
+        }
+        $registeredEvent = new Registered($identification);
         $this->world->eventHub()->trigger($registeredEvent);
         return new Boolean(true);
     }

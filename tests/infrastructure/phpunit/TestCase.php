@@ -28,6 +28,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param Result $result
+     * @param string $message
+     */
+    public function assertFalseCommandResult(Result $result, $message = '')
+    {
+        $this->assertThat($result, new Constraint\FalseCommandResult(), $message);
+    }
+
+    /**
      * @param EventHub $eventHub
      * @param Event $searchedEvent
      * @param string $message

@@ -91,4 +91,21 @@ class UserCommandsTest extends TestCase
         $user = $world->queryExecutor()->execute($registeredQuery);
         $this->assertNull($user);
     }
+
+    /**
+     * @test
+     */
+    public function duplicate_registration_fails()
+    {
+        $environment = $this->getNewWorldEnvironment();
+        $world = new World($environment);
+
+        $registerUser1 = new Register('foo', 'bar');
+        $result1 = $world->commandExecutor()->execute($registerUser1);
+        $this->assertTrueCommandResult($result1);
+
+        $registerUser2 = new Register('foo', 'bar');
+        $result2 = $world->commandExecutor()->execute($registerUser2);
+        $this->assertFalseCommandResult($result2);
+    }
 }
